@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Model</title>
+</head>
+<body>
+    <header class="flex gap-4 m-4 h-20 items-center">
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/5a/Ramaiah_Institutions_Logo.png" alt="" class="h-16 w-16 mt-8">
+        <p class="mt-4">WEB PROGRAMMING</p>
+    </header>
+    <div class="border border-red-700 border-x-4"></div>
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="flex flex-col w-40 border border-x-4 border-t-0 border-l-0 border-green-700 h-screen ">
+            <a href="#" class="ml-2 mt-2 underline text-blue-700">Home</a>
+            <a href="#" class="ml-2 mt-2 underline text-blue-700">Contact</a>
+        </div>
+
+        <!-- Main content -->
+        <div class="w-full">
+            <div class="border border-red-700 p-2 w-80 font-bold mx-auto mt-16">
+                CSS Box Model
+            </div>
+            <p class="p-8 mx-auto text-center overflow-auto">
+                The CSS box model defines how elements are structured on a webpage. It consists of the following parts:
+
+                <ul class="list-disc ml-8 mt-4">
+                    <li><strong>Content:</strong> The actual content of the box (text, images, etc.).</li>
+                    <li><strong>Padding:</strong> The space between the content and the border.</li>
+                    <li><strong>Border:</strong> A boundary around the padding (if defined).</li>
+                    <li><strong>Margin:</strong> The space outside the border, separating the element from others.</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
