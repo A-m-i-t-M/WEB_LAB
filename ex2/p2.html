@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2nd one</title>
+</head>
+<body>
+
+    <h2 style="text-align: center;">A Simple Form</h2>
+    <form autocomplete="on">
+        <fieldset>
+            <legend><strong>Customer Info</strong></legend>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required autofocus>
+
+            <label for="telephone">Telephone:</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="Pattern: 1-234-567-8910" 
+                   pattern="[1-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+            <label for="email">Email address:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" multiple required>
+        </fieldset>
+
+        <fieldset>
+            <legend><strong>Books</strong></legend>
+            <label for="books">Books:</label>
+            <input list="book-list" id="books" name="books">
+            <datalist id="book-list">
+                <option value="Pehla Book">
+                <option value="Doosra Book">
+                <option value="Teesra Book">
+                <option value="Chautha Book">
+                <option value="Panchwa Book">
+            </datalist>
+
+            <label for="quantity">Quantity (Maximum 5):</label>
+            <input type="number" id="quantity" name="quantity" min="1" max="5">
+        </fieldset>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- <p style="text-align: center;">© 2011 Acme United. All rights reserved.</p> -->
+
+</body>
+</html>
