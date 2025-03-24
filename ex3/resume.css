@@ -1,0 +1,51 @@
+body {
+    background-color: #f4f4f4; 
+    color: #333; 
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-style: italic;
+    margin: 2px;
+    padding: 20px;
+}
+
+header {
+    position: relative;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.profile-pic {
+    position: absolute;
+    top:3px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; 
+    border: 3px solid #2980b9; 
+}
+
+h1 {
+    color: #2c3e50; 
+    font-size: 32px;
+    font-style: normal;
+    text-align: center;
+}
+
+h2 {
+    color: #2980b9; 
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.thsi {
+    color: #2980b9; 
+    font-size: 24px;
+    text-decoration: underline;
+    text-align: center;
+}
+
+section {
+    margin-bottom: 20px;
+    padding: 5px;
+    border-bottom: 2px solid #ddd;
+}
