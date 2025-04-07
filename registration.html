@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <script type="text/javascript">
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var email = document.getElementById("email").value;
+            var birthYear = document.getElementById("birthYear").value;
+            var terms = document.getElementById("terms").checked;
+
+            // Password and Confirm Password check
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            // Check for empty fields
+            if (!username || !password || !confirmPassword || !email) {
+                alert("All fields must be filled.");
+                return false;
+            }
+
+            // Email format validation
+            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!email.match(emailPattern)) {
+                alert("Invalid email format.");
+                return false;
+            }
+
+            // Birth Year validation
+            if (birthYear < 1900 || birthYear > 2000 || birthYear.length !== 4) {
+                alert("Year of birth must be between 1900 and 2000.");
+                return false;
+            }
+
+            // Terms and conditions checkbox validation
+            if (!terms) {
+                alert("You must agree to the terms and conditions.");
+                return false;
+            }
+
+            alert("Registration successful!");
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2>Registration Form</h2>
+    <form onsubmit="return validateForm()">
+        Name: <input type="text" id="name"><br><br>
+        Username: <input type="text" id="username"><br><br>
+        Password: <input type="password" id="password"><br><br>
+        Confirm Password: <input type="password" id="confirmPassword"><br><br>
+        Email: <input type="text" id="email"><br><br>
+        Year of Birth: <input type="number" id="birthYear"><br><br>
+        <input type="checkbox" id="terms"> I agree to the terms and conditions.<br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
