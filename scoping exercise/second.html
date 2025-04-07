@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script>
+    //Hoisting
+    console.log(category); 
+    var category = "General";
+    var name = ""; 
+    var numbers = []; 
+    function sum() {
+      //getting the sum since there is no in built function unlike c++
+      return numbers.reduce((sum, score) => sum + score, 0);
+    };
+    const checkRank = function(x) {
+        return x > 40 ? "Star Performer" : x>=30 ? "Active" : "Inactive";
+    };
+    const getAverage = function(scores) {
+      return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    };
+    //lexical scoping
+    function getResult() {
+      const totalScore = sum();
+      const averageScore = getAverage(numbers);
+      const rank = checkRank(totalScore);
+      function showDetails() {
+        return `Student Name: ${name}\nTotal Score: ${totalScore}\nAverage Score: ${averageScore.toFixed(2)}\nRank: ${rank}\nMessage: Keep up the great work!`;
+      }
+      return showDetails();
+    }
+    function handleFormSubmit(event) {
+      event.preventDefault(); 
+      name = document.getElementById('name').value;
+      const scoresInput = document.getElementById('numbers').value;
+      numbers = scoresInput.split(',').map(score => Number(score.trim()));
+      const report = getResult();
+      document.getElementById('output').innerText = report;
+    }
+    if (true) {
+      var blockVar = "Outside block over here";
+    }
+    console.log(blockVar); 
+  </script>
+</head>
+
+<body>
+  <h2>Student Activity Score Submission</h2>
+  <form onsubmit="handleFormSubmit(event)">
+    <label for="name">Name:</label><br/>
+    <input type="text" id="name" required /><br/><br/>
+
+    <label for="numbers">Scores:</label><br/>
+    <input type="text" id="numbers" placeholder="(No more than 4 entries)" required /><br/><br/>
+
+    <button type="submit">Check</button>
+  </form>
+
+  <h3>Report:</h3>
+  <pre id="output" style="background-color: #f0f0f0; padding: 10px;"></pre>
+</body>
+</html>
