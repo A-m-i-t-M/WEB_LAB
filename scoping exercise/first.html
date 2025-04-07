@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let score = 0;
+        //Ye wala apan ka function declaration hai
+        function pehla() {
+            let ans = prompt("Which company has a tagline titled 'Just Do It'?");
+            if (ans === "Nike") {
+                score += 1;
+                console.log("Bingo");
+            } else {
+                console.log("Woops");
+            }
+        }
+        //Aur ye uska judwa bhai hai
+        function doosra() {
+            let ans = prompt("Which watch brand is universally worn (from Obama to Osama)?");
+            if (ans.toLowerCase() === "casio") {
+                score += 1;
+                console.log("Bingo!");
+            } else {
+                console.log("Woops!");
+            }
+        }
+        //Ye apna function expression hai kyuki isse ek variable ke sath assign kiya hai
+        const teesra = function() {
+            let ans = prompt("What is the sum of first 10 natural numbers?");
+            if (ans === "55") {
+                score += 1;
+                console.log("Bingo!");
+            } else {
+                console.log("Woops!");
+            }
+        };
+        console.log("Trynna show what a hoisted variable is: " + x); 
+        var x = "I'm hoisted!";
+        pehla();
+        doosra();
+        teesra();
+        const scoreDikhao = function() {
+            console.log(`Your final score is: ${score} / 3`);
+        };
+        scoreDikhao();
+        function scoreDikhaoButton() {
+            try {
+                console.log(ans); 
+            } catch(error) {
+                console.log("Answer ka scope idhar tak nhi h re baba");
+            }
+        }
+        scoreDikhaoButton();
+    </script>
+</head>
+<body>
+    <h1>Paragraph explaining what and all I learnt from these exercises</h1>
+</body>
+</html>
