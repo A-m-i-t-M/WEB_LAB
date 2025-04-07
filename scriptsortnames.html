@@ -1,0 +1,20 @@
+<!-- q13 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript">
+      var names = [];
+      var name;
+      while ((name = prompt("Enter a name (or cancel to stop):"))) {
+        names.push(name);
+      }
+
+      names.sort();
+      alert("Sorted names: \n" + names.join("\n"));
+    </script>
+  </head>
+  <body></body>
+</html>
