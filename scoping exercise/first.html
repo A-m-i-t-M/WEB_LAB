@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let score = 0;
+        //Ye wala apan ka function declaration hai
+        function pehla() {
+            let ans = prompt("Which company has a tagline titled 'Just Do It'?");
+            if (ans === "Nike") {
+                score += 1;
+                console.log("Bingo");
+            } else {
+                console.log("Woops");
+            }
+        }
+        //Aur ye uska judwa bhai hai
+        function doosra() {
+            let ans = prompt("Which watch brand is universally worn?");
+            if (ans.toLowerCase() === "casio") {
+                score += 1;
+                console.log("Bingo!");
+            } else {
+                console.log("Woops!");
+            }
+        }
+        //Ye apna function expression hai kyuki isse ek variable ke sath assign kiya hai
+        const teesra = function() {
+            let ans = prompt("What is the sum of first 10 natural numbers?");
+            if (ans === "55") {
+                score += 1;
+                console.log("Bingo!");
+            } else {
+                console.log("Woops!");
+            }
+        };
+        console.log("Trynna show what a hoisted variable is: " + x); 
+        var x = "I'm hoisted!";
+        pehla();
+        doosra();
+        teesra();
+        const scoreDikhao = function() {
+            console.log(`Your final score is: ${score} / 3`);
+        };
+        scoreDikhao();
+        function scoreDikhaoButton() {
+            try {
+                console.log(ans); 
+            } catch(error) {
+                console.log("Answer ka scope idhar tak nhi h re baba");
+            }
+        }
+        scoreDikhaoButton();
+    </script>
+</head>
+<body>
+    <h1>Paragraph explaining what and all I learnt from these exercises</h1>
+    <p>Global variables are used to store data which might be required all throughout the program. The scope of local vairables is only within the functions in which they are defined. There are a total of 3 different kinds of functions that we discussed in todays class <ul><li>Function Declaration (normal usage of a function)</li><li>Function Expression (we assign the function to a vairable over here)</li><li>Anonymous function (nameless funtion, which is called by a pair of "()" after defining the funtion)</li></ul>Another concept covered in here is that of Hoisting. So basically, whenever a variable (which is not yet declared/initialised) is called or referenced to, by defualt its value is set to "undefiined" unlike the traditional scenario in languages like Java and all where we would get Compilation <br/>
+    Lastly, we also made use of Lexical scoping where basically the nested functions are able to access the vairables that are present in their parent functions (going up in the hierarchy)<br/></p>
+    <p>-Amit Arunkumar Madhabhavi [1MS22CS021]</p>
+</body>
+</html>
