@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+        function showInfo(event) {
+            event.preventDefault();
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+            var hometown = document.getElementById("hometown").value;
+    
+            var birthYear = new Date().getFullYear() - age;
+            document.getElementById("userInfo").innerHTML = "Hello " + name + "! You were born in " + birthYear + ". <br><a href='https://www.google.com/search?q=" + hometown + "'>Search for your hometown on Google</a>";
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="showInfo(event)">
+        Name: <input type="text" id="name"><br><br>
+        Age: <input type="number" id="age"><br><br>
+        Hometown: <input type="text" id="hometown"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <p id="userInfo"></p>
+</body>
+</html>
