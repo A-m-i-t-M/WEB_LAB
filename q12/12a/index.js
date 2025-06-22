@@ -1,0 +1,10 @@
+import { Stack } from './stack.js';
+import { Queue } from './queue.js';
+const s = new Stack();
+s.push(10); 
+s.push(20); 
+console.log('Stack peek:', s.peek(), s.pop());
+const q = new Queue();
+q.enqueue('A'); 
+q.enqueue('B'); 
+console.log('Queue dequeue:', q.dequeue());
