@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
-
 const PORT = 3000;
-
-// Route: Home
 app.get('/', (req, res) => {
   res.send(`
     <h1>XYZ Engineering College</h1>
@@ -14,8 +11,6 @@ app.get('/', (req, res) => {
     </p>
   `);
 });
-
-// Route: CSE
 app.get('/cse', (req, res) => {
   res.send(`
     <body style="background-color:#e0f7fa; color:#006064; font-family:Arial">
@@ -24,8 +19,6 @@ app.get('/cse', (req, res) => {
     </body>
   `);
 });
-
-// Route: ECE
 app.get('/ece', (req, res) => {
   res.send(`
     <body style="background-color:#fff3e0; color:#e65100; font-family:Georgia">
@@ -34,8 +27,6 @@ app.get('/ece', (req, res) => {
     </body>
   `);
 });
-
-// Route: MECH
 app.get('/mech', (req, res) => {
   res.send(`
     <body style="background-color:#ede7f6; color:#4a148c; font-family:'Courier New'">
@@ -44,7 +35,6 @@ app.get('/mech', (req, res) => {
     </body>
   `);
 });
-
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

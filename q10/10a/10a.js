@@ -7,6 +7,7 @@ function logger(req, res, next) {
   next();
 }
 function visitorCounter(req, res, next) {
+  if (req.url === '/favicon.ico') return next();
   const ip = req.ip;
   if (visitCount[ip]) {
     visitCount[ip]++;
@@ -19,7 +20,7 @@ function visitorCounter(req, res, next) {
 app.use(logger);
 app.use(visitorCounter);
 app.get('/', (req, res) => {
-  res.send(`<h1>Welcome!</h1><p>You have visited this site ${visitCount[req.ip]} times.</p>`);
+  res.send(`<h1>Welcome!</h1><p>You have visited this site ${visitCount[req.ip]} times.</p><br><button onclick="location.reload()">Refresh</button>`);
 });
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
