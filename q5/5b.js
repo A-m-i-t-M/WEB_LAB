@@ -100,16 +100,12 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
-
 const app = express();
 const port = 3000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 let db;
 const mongoUrl = 'mongodb://localhost:27017';
-
 MongoClient.connect(mongoUrl)
   .then(client => {
     console.log("Mongo connected boss");
@@ -121,7 +117,6 @@ MongoClient.connect(mongoUrl)
   .catch(err => {
     console.log("MongoDB connection failed", err);
   });
-
 app.get("/", (req, res) => {
   res.send(`
     <h1>Student Records Portal</h1>
@@ -179,10 +174,10 @@ app.get("/", (req, res) => {
 
       function view() {
         fetch("/view")
-          .then(res => res.text())
-          .then(data => {
-            document.getElementById("viewResult").innerHTML = data;
-          });
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById("viewResult").innerHTML = data;
+        });
       }
     </script>
   `);

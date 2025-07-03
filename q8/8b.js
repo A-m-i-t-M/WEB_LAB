@@ -1,3 +1,92 @@
+// const express = require('express');
+// const { MongoClient } = require('mongodb');
+// const bodyParser = require('body-parser');
+// const app = express();
+// const port = 3000;
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// let db;
+// const mongoUrl = 'mongodb://127.0.0.1:27017';
+// MongoClient.connect(mongoUrl)
+//   .then(client => {
+//     console.log("MongoDB connected");
+//     db = client.db('productDB');
+//     app.listen(port, () => {
+//       console.log(`Server running at port ${port}`);
+//     });
+//   })
+//   .catch(err => {
+//     console.log("Connection error", err);
+//   });
+
+// app.get('/', (req, res) => {
+//   res.send(`
+//     <h1>Product Entry Form</h1>
+//     <form action="/add-product" method="POST">
+//       Product ID: <input type="text" name="Product_ID" required><br><br>
+//       Name: <input type="text" name="Name" required><br><br>
+//       Price: <input type="number" name="Price" required><br><br>
+//       Discount (%): <input type="number" name="Discount" required><br><br>
+//       Stock: <input type="number" name="Stock" required><br><br>
+//       <button type="submit">Add Product</button>
+//     </form>
+//     <hr>
+//     <a href="/cheap-products">View Products with Final Price < 2000</a>
+//   `);
+// });
+
+// app.post('/add-product', async (req, res) => {
+//   const { Product_ID, Name, Price, Discount, Stock } = req.body;
+//   const priceNum = parseFloat(Price);
+//   const discountNum = parseFloat(Discount);
+//   const finalPrice = priceNum - (priceNum * discountNum / 100);
+//   try {
+//     await db.collection('products').insertOne({
+//       Product_ID,
+//       Name,
+//       Price: priceNum,
+//       Discount: discountNum,
+//       Stock: parseInt(Stock),
+//       Final_Price: finalPrice
+//     });
+//     res.send("Product added successfully with Final Price.<br><a href='/'>Back</a>");
+//   } catch (err) {
+//     res.status(500).send("Error inserting product: " + err.message);
+//   }
+// });
+
+// app.get('/cheap-products', async (req, res) => {
+//   try {
+//     const products = await db.collection('products').find({ Final_Price: { $lt: 2000 } }).toArray();
+//     let html = `<h1>Products with Final Price < 2000</h1>`;
+//     products.forEach(p => {
+//       html += `<p>${p.Product_ID} - ${p.Name} | ₹${p.Final_Price.toFixed(2)}</p>`;
+//     });
+//     html += `<br><a href='/'>Back</a>`;
+//     res.send(html);
+//   } catch (err) {
+//     res.status(500).send("Error fetching products");
+//   }
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
@@ -21,50 +110,73 @@ MongoClient.connect(mongoUrl)
 
 app.get('/', (req, res) => {
   res.send(`
-    <h1>Product Entry Form</h1>
-    <form action="/add-product" method="POST">
-      Product ID: <input type="text" name="Product_ID" required><br><br>
-      Name: <input type="text" name="Name" required><br><br>
-      Price: <input type="number" name="Price" required><br><br>
-      Discount (%): <input type="number" name="Discount" required><br><br>
-      Stock: <input type="number" name="Stock" required><br><br>
-      <button type="submit">Add Product</button>
-    </form>
-    <hr>
-    <a href="/cheap-products">View Products with Final Price < 2000</a>
+    <h1>Product Entry</h1>
+
+    <h3>Add Product</h3>
+    <input id="Product_ID" placeholder="Product ID"><br>
+    <input id="Name" placeholder="Product Name"><br>
+    <input id="Price" type="number" placeholder="Price"><br>
+    <input id="Discount" type="number" placeholder="Discount (%)"><br>
+    <input id="Stock" type="number" placeholder="Stock"><br>
+    <button onclick="addProduct()">Add Product</button>
+    <p id="addResult"></p>
+
+    <h3>View Cheap Products (Final Price < 2000)</h3>
+    <button onclick="fetchCheapProducts()">Fetch Cheap Products</button>
+    <div id="cheapProducts"></div>
+
+    <script>
+      function addProduct() {
+        fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            Product_ID: document.getElementById('Product_ID').value,
+            Name: document.getElementById('Name').value,
+            Price: parseFloat(document.getElementById('Price').value),
+            Discount: parseFloat(document.getElementById('Discount').value),
+            Stock: parseInt(document.getElementById('Stock').value)
+          })
+        })
+        .then(res => res.text())
+        .then(msg => document.getElementById('addResult').innerText = msg);
+      }
+
+      function fetchCheapProducts() {
+        fetch('/api/products/cheap')
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById('cheapProducts').innerHTML = data || "<p>No cheap products found</p>";
+          });
+      }
+    </script>
   `);
 });
 
-app.post('/add-product', async (req, res) => {
+app.post('/api/products', async (req, res) => {
   const { Product_ID, Name, Price, Discount, Stock } = req.body;
-  const priceNum = parseFloat(Price);
-  const discountNum = parseFloat(Discount);
-  const finalPrice = priceNum - (priceNum * discountNum / 100);
+  const finalPrice = Price - (Price * Discount / 100);
   try {
-    await db.collection('products').insertOne({
-      Product_ID,
-      Name,
-      Price: priceNum,
-      Discount: discountNum,
-      Stock: parseInt(Stock),
-      Final_Price: finalPrice
-    });
-    res.send("Product added successfully with Final Price.<br><a href='/'>Back</a>");
+    await db.collection('products').insertOne({ Product_ID, Name, Price,  Discount, Stock, Final_Price: finalPrice});
+    res.send("Product added successfully with Final Price.");
   } catch (err) {
     res.status(500).send("Error inserting product: " + err.message);
   }
 });
 
-app.get('/cheap-products', async (req, res) => {
+app.get('/api/products/cheap', async (req, res) => {
   try {
     const products = await db.collection('products').find({ Final_Price: { $lt: 2000 } }).toArray();
-    let html = `<h1>Products with Final Price < 2000</h1>`;
+    let html = "<h2>Products with Final Price < 2000</h2>";
+    if (products.length === 0) {
+      html += "<p>No cheap products found</p>";
+    }
     products.forEach(p => {
       html += `<p>${p.Product_ID} - ${p.Name} | ₹${p.Final_Price.toFixed(2)}</p>`;
     });
-    html += `<br><a href='/'>Back</a>`;
     res.send(html);
+    // res.json(products);
   } catch (err) {
-    res.status(500).send("Error fetching products");
+    res.status(500).json({ error: "Error fetching products" });
   }
 });

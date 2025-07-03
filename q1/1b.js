@@ -1,16 +1,12 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
-
 const app = express();
 const port = 3000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 const mongoUrl = 'mongodb://127.0.0.1:27017';
 let db;
-
 MongoClient.connect(mongoUrl)
   .then(client => {
     console.log("MongoDB connected");
@@ -22,7 +18,6 @@ MongoClient.connect(mongoUrl)
   .catch(err => {
     console.log("Failed to connect to MongoDB", err);
   });
-
 app.get('/', (req, res) => {
   res.send(`
     <h1>Complaint Management</h1>
@@ -76,13 +71,9 @@ app.get('/', (req, res) => {
 
       function getPending() {
         fetch('/complaints/pending')
-          .then(res => res.json())
+          .then(res => res.text())
           .then(data => {
-            let output = '';
-            data.forEach(c => {
-              output += \`<p>ID: \${c.complaint_id}, User: \${c.user_name}, Issue: \${c.issue}, Status: \${c.status}</p>\`;
-            });
-            document.getElementById('pendingResult').innerHTML = output || '<p>No pending complaints</p>';
+            document.getElementById('pendingResult').innerHTML = data;
           });
       }
     </script>
@@ -124,7 +115,15 @@ app.put('/complaints', async (req, res) => {
 app.get('/complaints/pending', async (req, res) => {
   try {
     const complaints = await db.collection('complaints').find({ status: "Pending" }).toArray();
-    res.json(complaints);
+    let html = `<h2>Pending Complaints</h2>`;
+    if (complaints.length === 0) {
+      html += "<p>No pending complaints</p>";
+    }
+    complaints.forEach(c => {
+      html += `<p>Complaint ID: ${c.complaint_id}, User: ${c.user_name}, Issue: ${c.issue}, Status: ${c.status}</p>`;
+    });
+    res.send(html);
+    // res.json(complaints);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

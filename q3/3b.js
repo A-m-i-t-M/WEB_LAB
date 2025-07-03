@@ -1,3 +1,92 @@
+// const express = require('express');
+// const { MongoClient } = require('mongodb');
+// const bodyParser = require('body-parser');
+// const app = express();
+// const port = 3000;
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// let db;
+// const mongoUrl = 'mongodb://127.0.0.1:27017';
+// MongoClient.connect(mongoUrl)
+//   .then(client => {
+//     console.log("MongoDB connected");
+//     db = client.db('HR'); // ✅ DB name is HR
+//     app.listen(port, () => {
+//       console.log(`Server is running at port ${port}`);
+//     });
+//   })
+//   .catch(err => {
+//     console.log("Can't connect to MongoDB", err);
+//   });
+
+// app.get('/', (req, res) => {
+//   res.send(`
+//     <h1>Employee Entry Form</h1>
+//     <form action="/insert" method="POST">
+//       Name: <input type="text" name="emp_name" required><br><br>
+//       Email: <input type="email" name="email" required><br><br>
+//       Phone: <input type="text" name="phone" required><br><br>
+//       Hire Date: <input type="date" name="hire_date" required><br><br>
+//       Job Title: <input type="text" name="job_title" required><br><br>
+//       Salary: <input type="number" name="salary" required><br><br>
+//       <button type="submit">Add Employee</button>
+//     </form>
+//     <br>
+//     <a href="/high-earners">View Employees with Salary > 50000</a>
+//   `);
+// });
+
+// app.post('/insert', async (req, res) => {
+//   try {
+//     const { emp_name, email, phone, hire_date, job_title, salary } = req.body;
+//     await db.collection('employees').insertOne({
+//       emp_name,
+//       email,
+//       phone,
+//       hire_date,
+//       job_title,
+//       salary: parseFloat(salary)
+//     });
+//     res.send("Employee added successfully!<br><a href='/'>Back</a>");
+//   } catch (err) {
+//     res.status(500).send("Error: " + err.message);
+//   }
+// });
+
+// app.get('/high-earners', async (req, res) => {
+//   try {
+//     const employees = await db.collection('employees').find({ salary: { $gt: 50000 } }).toArray();
+//     let html = '<h1>Employees with Salary > 50,000</h1>';
+//     employees.forEach(emp => {
+//       html += `<p>${emp.emp_name} - ₹${emp.salary} - ${emp.job_title}</p>`;
+//     });
+//     html += '<br><a href="/">Back</a>';
+//     res.send(html);
+//   } catch (err) {
+//     res.status(500).send("Error fetching employees");
+//   }
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
@@ -10,7 +99,7 @@ const mongoUrl = 'mongodb://127.0.0.1:27017';
 MongoClient.connect(mongoUrl)
   .then(client => {
     console.log("MongoDB connected");
-    db = client.db('HR'); // ✅ DB name is HR
+    db = client.db('HR');
     app.listen(port, () => {
       console.log(`Server is running at port ${port}`);
     });
@@ -18,51 +107,73 @@ MongoClient.connect(mongoUrl)
   .catch(err => {
     console.log("Can't connect to MongoDB", err);
   });
-
 app.get('/', (req, res) => {
   res.send(`
     <h1>Employee Entry Form</h1>
-    <form action="/insert" method="POST">
-      Name: <input type="text" name="emp_name" required><br><br>
-      Email: <input type="email" name="email" required><br><br>
-      Phone: <input type="text" name="phone" required><br><br>
-      Hire Date: <input type="date" name="hire_date" required><br><br>
-      Job Title: <input type="text" name="job_title" required><br><br>
-      Salary: <input type="number" name="salary" required><br><br>
-      <button type="submit">Add Employee</button>
-    </form>
-    <br>
-    <a href="/high-earners">View Employees with Salary > 50000</a>
+
+    <h3>Add Employee</h3>
+    <input id="emp_name" placeholder="Name"><br>
+    <input id="email" placeholder="Email"><br>
+    <input id="phone" placeholder="Phone"><br>
+    <input id="hire_date" type="date" placeholder="Hire Date"><br>
+    <input id="job_title" placeholder="Job Title"><br>
+    <input id="salary" type="number" placeholder="Salary"><br>
+    <button onclick="addEmployee()">Add Employee</button>
+    <p id="insertResult"></p>
+
+    <h3>High Earners (Salary > 50,000)</h3>
+    <button onclick="getHighEarners()">View High Earners</button>
+    <div id="highEarnersList"></div>
+
+    <script>
+      function addEmployee() {
+        fetch('/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            emp_name: document.getElementById('emp_name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            hire_date: document.getElementById('hire_date').value,
+            job_title: document.getElementById('job_title').value,
+            salary: parseFloat(document.getElementById('salary').value)
+          })
+        })
+        .then(res => res.text())
+        .then(data => document.getElementById('insertResult').innerText = data);
+      }
+
+      function getHighEarners() {
+        fetch('/employees/high-earners')
+          .then(res => res.text())
+          .then(data => {
+            document.getElementById('highEarnersList').innerHTML = data || "<p>No high earners found</p>";
+          });
+      }
+    </script>
   `);
 });
 
-app.post('/insert', async (req, res) => {
+app.post('/employees', async (req, res) => {
   try {
     const { emp_name, email, phone, hire_date, job_title, salary } = req.body;
-    await db.collection('employees').insertOne({
-      emp_name,
-      email,
-      phone,
-      hire_date,
-      job_title,
-      salary: parseFloat(salary)
-    });
-    res.send("Employee added successfully!<br><a href='/'>Back</a>");
+    await db.collection('employees').insertOne({emp_name, email, phone, hire_date, job_title, salary});
+    res.send("Employee added successfully!");
   } catch (err) {
     res.status(500).send("Error: " + err.message);
   }
 });
 
-app.get('/high-earners', async (req, res) => {
+app.get('/employees/high-earners', async (req, res) => {
   try {
     const employees = await db.collection('employees').find({ salary: { $gt: 50000 } }).toArray();
     let html = '<h1>Employees with Salary > 50,000</h1>';
     employees.forEach(emp => {
       html += `<p>${emp.emp_name} - ₹${emp.salary} - ${emp.job_title}</p>`;
     });
-    html += '<br><a href="/">Back</a>';
-    res.send(html);
+    res.send(html || "<p>No high earners found</p>");
+    // res.json(employees);
   } catch (err) {
-    res.status(500).send("Error fetching employees");
+    res.status(500).json({ error: "Error fetching employees" });
   }
 });

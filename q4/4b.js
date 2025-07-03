@@ -100,16 +100,12 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
-
 const app = express();
 const port = 3000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 let db;
 const mongoUrl = 'mongodb://localhost:27017';
-
 MongoClient.connect(mongoUrl)
   .then(client => {
     console.log("Mongo connected boss");

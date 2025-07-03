@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="tt"></p>
+    <script>
+        function translate(text){
+            const vows = 'aeiouAEIOU';
+            let res = '';
+            for(let char of text){
+                if((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')){
+                    if(!vows.includes(char)){
+                        res += char.toLowerCase() + 'o' + char.toLowerCase();
+                    }else{
+                        res += char.toLowerCase();
+                    }
+                }else{
+                    res += char;
+                }
+            }
+            return res;
+        }
+        document.getElementById('tt').innerText = translate("Hello World! This is a test.");
+    </script>
+</body>
+</html>

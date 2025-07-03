@@ -177,13 +177,10 @@ const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 let db;
 const mongoUrl = 'mongodb://127.0.0.1:27017';
-
 MongoClient.connect(mongoUrl)
   .then(client => {
     console.log("Mongo connected boss");
@@ -281,12 +278,10 @@ app.put("/update", async (req, res) => {
     if (Student_ID) query.Student_ID = Student_ID;
     else if (Course_Name) query.Course_Name = Course_Name;
     else return res.send("Please provide Student_ID or Course_Name");
-
     const result = await db.collection('enrollments').updateMany(
       query,
       { $set: { Status: "completed" } }
     );
-
     if (result.modifiedCount > 0) {
       res.send("Status updated to completed!");
     } else {
